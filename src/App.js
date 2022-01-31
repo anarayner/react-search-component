@@ -1,23 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import './App.css'
+import SearchList from './components/SearchList';
+import dataPersons from './data/dataPersons';
+
 
 function App() {
+
+    const [searchField, setSearchField] = useState('')
+
+    const filteredPersons = dataPersons.filter(person =>
+        person
+            .name
+            .toLowerCase()
+            .includes(searchField.toLowerCase())
+        ||
+        person
+            .email
+            .toLowerCase()
+            .includes(searchField.toLowerCase())
+
+    )
+
+    const handleChange =(e)=>{
+    setSearchField(e.target.value)
+    }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <div className="navy georgia ma0 grow">
+            <h1 className="" >Search your employee</h1>
+        </div>
+        <input
+            className="pa3 bb br3 grow b--none bg-lightest-blue ma3"
+            type='search'
+            placeholder='Type here..'
+            onChange={handleChange}
+        />
+
+       <SearchList filteredPersons={filteredPersons}/>
     </div>
   );
 }
